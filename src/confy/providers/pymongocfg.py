@@ -12,25 +12,7 @@ from confy.providers.base import *
 import pymongo.connection
 import threading
 
-
-__all__ = ['MongoProvider']
-
-
-class PyMongoProvider(Provider):
-    __abstract__ = True
-    Helper = PyMongoHelper
-
-    def __provide__(self, method_name):
-        return self.Helper(self.get_config(method_name))
-
-    def __defaults__(self):
-        return dict(
-            host = 'localhost',
-            port = 27017,
-            timeout = None,
-            database = 'testing',
-            son_manipulators = []
-        )
+__all__ = ['PyMongoProvider']
 
 
 class PyMongoHelper(object):
@@ -71,7 +53,7 @@ class PyMongoHelper(object):
         Get a new instance of the mongo db.
         """
         manipulators = self.config['son_manipulators']
-        connection_key = hash("{0.host}:{0.port}:{0.timeout}".format(self.config))
+        connection_key = hash("{0[host]}:{0[port]}:{0[timeout]}".format(self.config))
         
         connection = self.connections.get(connection_key)
         
@@ -79,7 +61,7 @@ class PyMongoHelper(object):
             with threading.Lock():
                 connection = self.connections.get(connection_key)
                 if not connection:
-                    self.connection[connection_key] = pymongo.connection.Connection(
+                    connection = self.connections[connection_key] = pymongo.connection.Connection(
                         self.config['host'],
                         self.config['port'],
                         network_timeout = self.config['timeout']
@@ -91,3 +73,20 @@ class PyMongoHelper(object):
             db.add_son_manipulator(manipulator)
         
         return db
+
+
+class PyMongoProvider(Provider):
+    __abstract__ = True
+    Helper = PyMongoHelper
+
+    def __provide__(self, method_name):
+        return self.Helper(self.get_config(method_name))
+
+    def __defaults__(self):
+        return dict(
+            host = 'localhost',
+            port = 27017,
+            timeout = None,
+            database = 'testing',
+            son_manipulators = []
+        )

@@ -14,7 +14,7 @@ def instance(name, *args, **kwargs):
     if '.' not in name:
         name += ".__default__"
     cls_name, method_name = name.split('.')
-    provider = ProviderMetaclass.find(cls_name)
+    provider = type(Provider).find(cls_name)
     if provider._instance == None:
         provider._instance = provider()
     return provider._instance.__provide__(method_name)

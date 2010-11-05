@@ -7,7 +7,7 @@ Created by Kurtiss Hare on 2010-11-05.
 Copyright (c) 2010 Medium Entertainment, Inc. All rights reserved.
 """
 
-from confy.base import *
+from confy.providers.base import *
 
 import socket
 import struct
