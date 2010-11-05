@@ -7,8 +7,7 @@ setup.py
 from setuptools import setup, find_packages
 import os
 
-os.chdir('src')
-execfile(os.path.join('confy', 'version.py'))
+execfile(os.path.join('src', 'confy', 'version.py'))
 
 setup(
     name = 'confy',
