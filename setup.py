@@ -15,9 +15,10 @@ setup(
     version = VERSION,
     description = 'confy configures things.',
     author = 'Kurtiss Hare',
-    author_email = 'kurtiss@gmail.com.com',
+    author_email = 'kurtiss@gmail.com',
     url = 'http://www.github.com/kurtiss/confy',
-    packages = find_packages(),
+    packages = find_packages('src'),
+    package_dir = {'' : 'src'},
     scripts = [],
     classifiers = [
         'Intended Audience :: Developers',
