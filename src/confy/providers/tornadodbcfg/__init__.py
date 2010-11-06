@@ -18,7 +18,7 @@ class DatabaseProvider(InstanceProvider, Provider):
     pools = dict()
 
     def construct(self, config):
-        pool_key = hash("{0.user}:{0.password}@{0.host}/{0.database}".format(config))
+        pool_key = hash("{0[user]}:{0[password]}@{0[host]}/{0[database]}".format(config))
 
         try:
             pool = self.pools[pool_key]

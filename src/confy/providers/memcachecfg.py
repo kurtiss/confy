@@ -25,7 +25,7 @@ class MemcacheProvider(InstanceProvider, Provider):
                     connection = self.connections.connection
                 except AttributeError:
                     connection = self.connections.connection = memcache.Client(
-                        ["{0.host}:{0.port}".format(config)], 
+                        ["{0[host]}:{0[port]}".format(config)], 
                         debug = config['debug']
                     )
 
