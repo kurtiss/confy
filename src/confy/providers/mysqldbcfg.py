@@ -4,13 +4,13 @@
 mysqldbcfg.py
 
 Created by Stephen Altamirano on 2010-11-09.
-Copyright (c) 2010 Medium Entertainment Inc.. All rights reserved.
+Copyright (c) 2010 Medium Entertainment Inc. All rights reserved.
 """
 
 import MySQLdb
 from confy.providers.base import *
 
-class MysqlProvider(InstanceProvider, Provider):
+class MySQLdbProvider(InstanceProvider, Provider):
     __abstract__ = True
 
     def construct(self, config):
