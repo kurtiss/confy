@@ -16,11 +16,11 @@ import pymongo.connection
 
 class MonqueProvider(InstanceProvider, Provider):
     __abstract__ = True
-    
+
     def construct(self, config):
-        database = confy.instance("pymongo.{0.mongodb}".format(config))
+        database = confy.instance("pymongo.{0[mongodb]}".format(config))
         return monque.Monque(database)
-    
+
     def __defaults__(self):
         return dict(
             mongodb = '__default__',
