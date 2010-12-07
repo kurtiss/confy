@@ -29,7 +29,7 @@ class BusketRecorder(object):
         self.length = 0
         self.busket = busket
         self.events = events
-        self.max_payload_size = 100
+        self.max_payload_size = 1024
     
     def _flush(self, final = False):
         if self.buffer:
