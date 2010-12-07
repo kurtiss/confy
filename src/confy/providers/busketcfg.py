@@ -9,7 +9,6 @@ Copyright (c) 2010 Medium Entertainment, Inc. All rights reserved.
 
 from confy.providers.base import *
 
-import contextlib
 import socket
 import struct
 import threading
