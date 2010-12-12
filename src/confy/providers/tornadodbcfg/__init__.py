@@ -8,8 +8,6 @@ Copyright (c) 2010 Medium Entertainment, Inc. All rights reserved.
 """
 
 from confy.providers.base import *
-from confy.providers.tornadodbcfg.connection import *
-
 import threading
 
 
@@ -18,6 +16,8 @@ class DatabaseProvider(InstanceProvider, Provider):
     pools = dict()
 
     def construct(self, config):
+        from confy.providers.tornadodbcfg.connection import ConnectionPool, Connection
+
         pool_key = hash("{0[user]}:{0[password]}@{0[host]}/{0[database]}".format(config))
 
         try:

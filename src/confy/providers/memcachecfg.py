@@ -8,7 +8,6 @@ Copyright (c) 2010 Medium Entertainment, Inc. All rights reserved.
 """
 
 from confy.providers.base import *
-import memcache
 import threading
 
 
@@ -24,6 +23,7 @@ class MemcacheProvider(InstanceProvider, Provider):
                 try:
                     connection = self.connections.connection
                 except AttributeError:
+                    import memcache
                     connection = self.connections.connection = memcache.Client(
                         ["{0[host]}:{0[port]}".format(config)], 
                         debug = config['debug']

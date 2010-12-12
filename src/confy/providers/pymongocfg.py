@@ -8,8 +8,6 @@ Copyright (c) 2010 Medium Entertainment, Inc. All rights reserved.
 """
 
 from confy.providers.base import *
-
-import pymongo.connection
 import threading
 
 __all__ = ['PyMongoProvider']
@@ -61,6 +59,7 @@ class PyMongoHelper(object):
             with threading.Lock():
                 connection = self.connections.get(connection_key)
                 if not connection:
+                    import pymongo.connection                    
                     connection = self.connections[connection_key] = pymongo.connection.Connection(
                         self.config['host'],
                         self.config['port'],
