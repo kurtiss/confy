@@ -67,10 +67,14 @@ class ExactTargetXML(object):
             with d.system():
                 d._(str(method))
 
-        return urlopen(self.endpoint, urlencode({
-            'qf': 'xml',
-            'xml': d
-        }))
+        return urlopen(
+            self.endpoint,
+            urlencode({
+                'qf': 'xml',
+                'xml': d
+            }),
+            60
+        )
 
     def trigger_email(self, email_key, recipient_sets):
         d = PrettyMarkup()
