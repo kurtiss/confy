@@ -12,8 +12,8 @@ from confy.providers.base import *
 
 class SforceProvider(InstanceProvider, Provider):
     __abstract__ = True
-    
-    @clsmethod()
+
+    @classmethod
     def get_client_cls(cls):
         if not hasattr(cls, '_client_cls'):
             from sforce.enterprise import SforceEnterpriseClient
@@ -35,7 +35,7 @@ class SforceProvider(InstanceProvider, Provider):
 
     def construct(self, config):
         return type(self).get_client_cls()(
-            config['name_prefix'], 
+            config['name_prefix'],
             ((config['username'], config['password'], config['token']), dict()),
             config['wsdl']
         )
