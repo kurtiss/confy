@@ -20,6 +20,7 @@ class PyMongoHelper(object):
         self.config = config
 
     def do(self, *args):
+        import pymongo
         results = []
         exc = None
 
@@ -52,25 +53,25 @@ class PyMongoHelper(object):
         """
         manipulators = self.config['son_manipulators']
         connection_key = hash("{0[host]}:{0[port]}:{0[timeout]}".format(self.config))
-        
+
         connection = self.connections.get(connection_key)
-        
+
         if not connection:
             with threading.Lock():
                 connection = self.connections.get(connection_key)
                 if not connection:
-                    import pymongo.connection                    
+                    import pymongo.connection
                     connection = self.connections[connection_key] = pymongo.connection.Connection(
                         self.config['host'],
                         self.config['port'],
                         network_timeout = self.config['timeout']
                     )
-        
+
         db = connection[self.config['database']]
 
         for manipulator in self.config['son_manipulators']:
             db.add_son_manipulator(manipulator)
-        
+
         return db
 
 
