@@ -65,7 +65,7 @@ class ExactTargetXML(object):
                 with d.password():
                     d._(self.password)
             with d.system():
-                d._(str(method))
+                d._(unicode(method))
 
         return urlopen(
             self.endpoint,
