@@ -28,7 +28,7 @@ class SforceProvider(InstanceProvider, Provider):
                     super(_ClientWrapper, self).login(*self._login_params[0], **self._login_params[1])
 
                 def mkname(self, name):
-                    return "{0}{1}".format(self._name_prefix, name)
+                    return u"{0}{1}".format(self._name_prefix, name)
 
             cls._client_cls = _ClientWrapper
         return cls._client_cls
