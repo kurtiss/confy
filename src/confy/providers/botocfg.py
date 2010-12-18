@@ -25,19 +25,19 @@ class ConnectingBotoWrapper(object):
         self.connect_params = connect_params
 
     def __getattr__(self, name):
-        value = getattr(boto, name)
+        value = getattr(self.boto, name)
         if name.startswith('connect_') and hasattr(value, '__call__'):
             def wrapper(*args, **kwargs):
                 connect_args = [arg for arg in itertools.chain(
                     (a for a in self.connect_params[0]),
                     (a for a in args)
                 )]
-                
+
                 connect_kwargs = dict((k,v) for (k,v) in itertools.chain(
                     ((k,v) for (k,v) in self.connect_params[1].items()),
                     ((k,v) for (k,v) in kwargs.items())
                 ))
-                
+
                 return value(*connect_args, **connect_kwargs)
             return wrapper
         return value
