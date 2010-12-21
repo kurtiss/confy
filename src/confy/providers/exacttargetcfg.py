@@ -122,7 +122,12 @@ class ExactTargetProvider(InstanceProvider, Provider):
     __abstract__ = True
 
     def construct(self, config):
-        return ExactTargetXML(config['username'], config['password'])
+        return ExactTargetXML(
+            config['username'],
+            config['password'],
+            config['from_address'],
+            config['from_name']
+        )
 
     def __defaults__(self):
         return dict(
