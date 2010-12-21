@@ -98,9 +98,9 @@ class ExactTargetXML(object):
                 with d.Subscribers():
                     with d.Owner():
                         with d.FromAddress():
-                            d._('support@playhaven.com')
+                            d._('notify@playhaven.com')
                         with d.FromName():
-                            d._('PlayHaven Support')
+                            d._('PlayHaven')
                     with d.SubscriberKey():
                         d._(email)
                     with d.EmailAddress():
