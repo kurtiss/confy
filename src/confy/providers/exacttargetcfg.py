@@ -51,9 +51,11 @@ class Node(object):
         self.document.append('</{0}>'.format(self.name))
 
 class ExactTargetXML(object):
-    def __init__(self, username, password):
+    def __init__(self, username, password, from_address, from_name):
         self.username = username
         self.password = password
+        self.from_address = from_address
+        self.from_name = from_name
         self.endpoint = 'https://api.dc1.exacttarget.com/integrate.aspx'
 
     def send(self, method):
@@ -98,9 +100,9 @@ class ExactTargetXML(object):
                 with d.Subscribers():
                     with d.Owner():
                         with d.FromAddress():
-                            d._('notify@playhavenmail.com')
+                            d._(self.from_address)
                         with d.FromName():
-                            d._('PlayHaven')
+                            d._(self.from_name)
                     with d.SubscriberKey():
                         d._(email)
                     with d.EmailAddress():
@@ -126,4 +128,6 @@ class ExactTargetProvider(InstanceProvider, Provider):
         return dict(
             username = 'WRONGUSERNAME',
             password = 'WRONGPASSWORD',
+            from_address = 'exacttarget@confy',
+            from_name = 'ConfyExactTarget'
         )
