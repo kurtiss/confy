@@ -28,7 +28,9 @@ class PrettyMarkup(object):
         return lambda attrs=None: self._make_node(name, attrs)
 
     def __str__(self):
-        return ''.join(self._data)
+        return ''.join(
+            [isinstance(v, str) and v or v.encode('utf-8') for v in self._data]
+        )
 
 
 class Node(object):
@@ -67,7 +69,7 @@ class ExactTargetXML(object):
                 with d.password():
                     d._(self.password)
             with d.system():
-                d._(unicode(method))
+                d._(str(method))
 
         return urlopen(
             self.endpoint,
