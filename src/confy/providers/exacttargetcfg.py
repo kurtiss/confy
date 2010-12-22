@@ -117,6 +117,27 @@ class ExactTargetXML(object):
 
         return self.send(d)
 
+    def subscribe_list(self, email_address, list_id, status='active'):
+        """
+        Adds an email to a list. Status should either be active or unsub.
+        """
+        d = PrettyMarkup()
+        with d.system_name():
+            d._('subscriber')
+        with d.action():
+            d._('add')
+        with d.search_type():
+            d._('listid')
+        with d.search_value():
+            d._(str(list_id))
+        with d.values():
+            with d.Email__Address():
+                d._(email_address)
+            with d.status():
+                d._(status)
+
+        return self.send(d)
+
 
 class ExactTargetProvider(InstanceProvider, Provider):
     __abstract__ = True
