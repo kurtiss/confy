@@ -10,3 +10,4 @@ from confy.providers import *
 __version__ = VERSION
 
 instance = Provider.instance
+find = ProviderMetaclass.find

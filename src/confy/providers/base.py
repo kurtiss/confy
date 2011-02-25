@@ -7,7 +7,7 @@ Created by Kurtiss Hare on 2010-11-04.
 Copyright (c) 2010 Medium Entertainment, Inc. All rights reserved.
 """
 
-__all__ = ['Provider', 'SingletonProvider', 'InstanceProvider']
+__all__ = ['Provider', 'SingletonProvider', 'InstanceProvider', 'ProviderMetaclass']
 
 
 class ProviderMetaclass(type):
