@@ -123,6 +123,8 @@ class ConnectionPool(object):
 
 
 class Connection(object):
+    QueryFormatter = _ParameterizingFormatter
+
     def __init__(self, pool):
         self.pool = pool
         self._connection = None

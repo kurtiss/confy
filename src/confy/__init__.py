@@ -11,3 +11,4 @@ __version__ = VERSION
 
 instance = Provider.instance
 find = ProviderMetaclass.find
+config = Provider.config

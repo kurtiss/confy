@@ -12,7 +12,7 @@ __all__ = ['Provider', 'SingletonProvider', 'InstanceProvider', 'ProviderMetacla
 
 class ProviderMetaclass(type):
     _subclasses = {}
-    
+
     def __new__(cls, name, bases, attrs):
         new_cls = type.__new__(cls, name, bases, attrs)
 
@@ -43,6 +43,16 @@ class ProviderMetaclass(type):
 class Provider(object):
     @classmethod
     def instance(cls, name, *args, **kwargs):
+        provider, method_name = cls._get_provider_spec(name, *args, **kwargs)
+        return provider.__provide__(method_name)
+
+    @classmethod
+    def config(cls, name, *args, **kwargs):
+        provider, method_name = cls._get_provider_spec(name, *args, **kwargs)
+        return provider.get_config(method_name)
+
+    @classmethod
+    def _get_provider_spec(cls, name, *args, **kwargs):
         try:
             cls_name, method_name = name.split('.')
         except ValueError:
@@ -51,7 +61,7 @@ class Provider(object):
         ProviderClass = type(cls).find(cls_name)
         if ProviderClass._instance == None:
             ProviderClass._instance = ProviderClass()
-        return ProviderClass._instance.__provide__(method_name)
+        return ProviderClass._instance, method_name
 
     __metaclass__ = ProviderMetaclass
     __abstract__ = True
