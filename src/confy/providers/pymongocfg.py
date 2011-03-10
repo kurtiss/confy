@@ -61,9 +61,17 @@ class PyMongoHelper(object):
                 connection = self.connections.get(connection_key)
                 if not connection:
                     import pymongo.connection
+
+                    hosts = []
+                    for host_opts in self.config['hosts']:
+                        host = host_opts.get('host', self.config['default_host'])
+                        port = host_opts.get('port', self.config['default_port'])
+                        hosts.append((host, port))
+
                     connection = self.connections[connection_key] = pymongo.connection.Connection(
-                        self.config['host'],
-                        self.config['port'],
+                        'mongodb://{0}'.format(','.join([
+                            '{0}:{1}'.format(*p) for p in hosts
+                        ])),
                         network_timeout = self.config['timeout']
                     )
 
@@ -84,9 +92,10 @@ class PyMongoProvider(Provider):
 
     def __defaults__(self):
         return dict(
-            host = 'localhost',
-            port = 27017,
+            hosts = [{}],
             timeout = None,
             database = 'testing',
-            son_manipulators = []
+            son_manipulators = [],
+            default_host = 'localhost',
+            default_port = 27017
         )
