@@ -52,7 +52,18 @@ class PyMongoHelper(object):
         Get a new instance of the mongo db.
         """
         manipulators = self.config['son_manipulators']
-        connection_key = hash("{0[host]}:{0[port]}:{0[timeout]}".format(self.config))
+
+        hosts = []
+        for host_opts in self.config['hosts']:
+            host = host_opts.get('host', self.config['default_host'])
+            port = host_opts.get('port', self.config['default_port'])
+            hosts.append((host, port))
+
+        mongo_uri = 'mongodb://{0}'.format(','.join([
+            '{0}:{1}'.format(*p) for p in hosts
+        ]))
+
+        connection_key = hash(mongo_uri)
 
         connection = self.connections.get(connection_key)
 
@@ -62,16 +73,8 @@ class PyMongoHelper(object):
                 if not connection:
                     import pymongo.connection
 
-                    hosts = []
-                    for host_opts in self.config['hosts']:
-                        host = host_opts.get('host', self.config['default_host'])
-                        port = host_opts.get('port', self.config['default_port'])
-                        hosts.append((host, port))
-
                     connection = self.connections[connection_key] = pymongo.connection.Connection(
-                        'mongodb://{0}'.format(','.join([
-                            '{0}:{1}'.format(*p) for p in hosts
-                        ])),
+                        mongo_uri,
                         network_timeout = self.config['timeout']
                     )
 
